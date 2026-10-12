@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moussa & Simona | Wedding Invitation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ivory: #fbf7f0;
+      --champagne: #e5d2b7;
+      --gold: #b69a6a;
+      --brown: #685548;
+      --white: #fffdf9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--ivory);
+      color: var(--brown);
+      font-family: "Cormorant Garamond", serif;
+      text-align: center;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .language {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 20;
+    }
+
+    .language button {
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      padding: 7px 13px;
+      background: var(--white);
+      color: var(--brown);
+      font-size: 15px;
+    }
+
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 65px 20px 35px;
+      background:
+        radial-gradient(ellipse at top, #fffdf9 0%, transparent 65%),
+        var(--ivory);
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: "Great Vibes", cursive;
+      font-weight: 400;
+      font-size: clamp(42px, 12vw, 68px);
+      color: var(--gold);
+      margin: 0 0 10px;
+    }
+
+    .intro {
+      font-size: 20px;
+      margin-bottom: 28px;
+    }
+
+    .envelope {
+      position: relative;
+      width: min(84vw, 340px);
+      height: 220px;
+      margin: 12px auto 25px;
+      background: #e8d7c2;
+      border-radius: 3px;
+      box-shadow: 0 14px 35px #8b735322;
+      cursor: pointer;
+      perspective: 900px;
+    }
+
+    .envelope::before,
+    .envelope::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      z-index: 3;
+    }
+
+    .envelope::before {
+      left: 0;
+      border-width: 110px 170px 0 0;
+      border-color: #f1e3d1 transparent transparent transparent;
+    }
+
+    .envelope::after {
+      right: 0;
+      border-width: 110px 0 0 170px;
+      border-color: #ddc7ac transparent transparent transparent;
+    }
+
+    .flap {
+      position: absolute;
+      inset: 0 0 auto;
+      height: 0;
+      border-left: min(42vw, 170px) solid transparent;
+      border-right: min(42vw, 170px) solid transparent;
+      border-top: 125px solid #f7eadb;
+      transform-origin: top;
+      transition: transform 1s ease;
+      z-index: 5;
+    }
+
+    .seal {
+      position: absolute;
+      left: 50%;
+      top: 83px;
+      transform: translateX(-50%);
+      z-index: 6;
+      width: 53px;
+      height: 53px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #b58f78;
+      color: #fff8ee;
+      border: 2px solid #d8b99c;
+      font-family: "Great Vibes", cursive;
+      font-size: 24px;
+      box-shadow: 0 3px 9px #6d4e3b33;
+      transition: opacity .4s ease;
+    }
+
+    .mini-card {
+      position: absolute;
+      z-index: 2;
+      left: 8%;
+      width: 84%;
+      top: 12px;
+      height: 195px;
+      padding: 20px 10px;
+      background: var(--white);
+      border: 1px solid #e8d8c3;
+      transition: transform 1s ease;
+    }
+
+    .mini-card p {
+      margin: 5px;
+      font-size: 17px;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .envelope.open .seal {
+      opacity: 0;
+    }
+
+    .envelope.open .mini-card {
+      transform: translateY(-125px);
+      z-index: 7;
+    }
+
+    .tap {
+      font-size: 16px;
+      font-style: italic;
+      color: #8d7965;
+    }
+
+    .invitation {
+      display: none;
+      padding: 55px 22px;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: appear 1.1s ease;
+    }
+
+    .invitation.show {
+      display: block;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .floral {
+      color: var(--gold);
+      font-size: 25px;
+      letter-spacing: 9px;
+      margin: 12px 0;
+    }
+
+    .invitation h2 {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(40px, 10vw, 58px);
+      font-weight: 400;
+      color: var(--gold);
+      margin: 10px 0;
+    }
+
+    .names {
+      font-size: clamp(28px, 7vw, 40px);
+      margin: 15px 0;
+    }
+
+    .message {
+      font-size: 21px;
+      line-height: 1.65;
+      margin: 20px auto;
+    }
+
+    .date {
+      font-size: 25px;
+      letter-spacing: 2px;
+      margin: 24px 0 8px;
+    }
+
+    .time {
+      font-size: 19px;
+    }
+
+    .details {
+      background: #f3e9dc;
+      padding: 28px 20px;
+      margin: 28px 0;
+      border: 1px solid #e5d2b7;
+    }
+
+    .details h3 {
+      font-weight: 500;
+      font-size: 25px;
+      margin: 0 0 12px;
+    }
+
+    .details p {
+      font-size: 20px;
+      line-height: 1.5;
+    }
+
+    .action {
+      display: inline-block;
+      margin: 9px 5px;
+      padding: 12px 20px;
+      border: 1px solid var(--gold);
+      background: var(--white);
+      color: var(--brown);
+      text-decoration: none;
+      font-size: 18px;
+      border-radius: 2px;
+    }
+
+    .action:hover {
+      background: #efe2d0;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 25px auto;
+      flex-wrap: wrap;
+    }
+
+    .count-box {
+      min-width: 68px;
+      padding: 12px 8px;
+      background: var(--white);
+      border: 1px solid #e5d2b7;
+    }
+
+    .count-box strong {
+      display: block;
+      font-size: 27px;
+      font-weight: 500;
+    }
+
+    .count-box span {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 25px 0;
+    }
+
+    .photo {
+      min-height: 150px;
+      display: grid;
+      place-items: center;
+      padding: 15px;
+      background: #e8d9c8;
+      color: #806d5a;
+      border: 1px solid #d8c4ad;
+      font-size: 17px;
+    }
+
+    .photo:first-child {
+      grid-column: span 2;
+      min-height: 210px;
+    }
+
+    .rsvp-note {
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    footer {
+      padding: 25px 10px 45px;
+      font-family: "Great Vibes", cursive;
+      font-size: 30px;
+      color: var(--gold);
+    }
+
+    .music-player {
+      margin: 20px auto;
+      max-width: 340px;
+    }
+
+    .music-player iframe {
+      width: 100%;
+      height: 80px;
+      border: 0;
+    }
+
+    [dir="rtl"] {
+      font-family: Tahoma, sans-serif;
+    }
+
+    [dir="rtl"] .eyebrow {
+      letter-spacing: 0;
+    }
+
+    [dir="rtl"] .message {
+      line-height: 1.9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="language">
+    <button id="languageButton" onclick="toggleLanguage()">العربية</button>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow" data-it="Un invito speciale" data-ar="دعوة مميزة">
+      Un invito speciale
+    </div>
+
+    <h1>Moussa &amp; Simona</h1>
+
+    <p class="intro"
+       data-it="Una nuova storia, un nuovo inizio."
+       data-ar="حكاية جديدة وبداية جديدة">
+      Una nuova storia, un nuovo inizio.
+    </p>
+
+    <div class="envelope" id="envelope" onclick="openInvitation()"
+         role="button" aria-label="Apri l'invito">
+      <div class="mini-card">
+        <p>✧ M · S ✧</p>
+        <p data-it="Il nostro matrimonio" data-ar="حفل زفافنا">
+          Il nostro matrimonio
+        </p>
+        <p>06 · 04 · 2027</p>
+      </div>
+      <div class="flap"></div>
+      <div class="seal">M·S</div>
+    </div>
+
+    <div class="tap" data-it="Tocca la busta per aprire l'invito"
+         data-ar="اضغط على الظرف لفتح الدعوة">
+      Tocca la busta per aprire l'invito
+    </div>
+  </section>
+
+  <main class="invitation" id="invitation">
+    <div class="floral">❦ ✧ ❦</div>
+
+    <p class="message"
+       data-it="Con amore e gioia, desideriamo condividere con voi il giorno più bello della nostra storia."
+       data-ar="بكل حب وفرحة، يسعدنا أن نشارككم أجمل يوم في حكايتنا">
+      Con amore e gioia, desideriamo condividere con voi il giorno più bello della nostra storia.
+    </p>
+
+    <h2>We're getting married</h2>
+    <div class="names">Moussa <span style="color:#b69a6a">&amp;</span> Simona</div>
+
+    <div class="floral">✧ ❀ ✧</div>
+
+    <p class="message"
+       data-it="Saremmo felici di avervi accanto mentre iniziamo questo nuovo capitolo insieme."
+       data-ar="يسعدنا وجودكم معنا ونحن نبدأ فصلًا جديدًا من حياتنا">
+      Saremmo felici di avervi accanto mentre iniziamo questo nuovo capitolo insieme.
+    </p>
+
+    <div class="date">6 APRILE 2027</div>
+    <div class="time" data-it="Vi aspettiamo con gioia" data-ar="في انتظاركم بكل حب">
+      Vi aspettiamo con gioia
+    </div>
+
+    <div class="details">
+      <h3 data-it="La location" data-ar="مكان الحفل">La location</h3>
+      <p dir="rtl">قاعة روتانا المعادي</p>
+      <a class="action"
+         href="https://www.google.com/maps/search/?api=1&query=قاعة+روتانا+المعادي"
+         target="_blank" rel="noopener"
+         data-it="Apri la mappa" data-ar="افتح الخريطة">
+        Apri la mappa
+      </a>
+    </div>
+
+    <h3 data-it="Manca sempre meno..." data-ar="لم يتبقَّ الكثير...">
+      Manca sempre meno...
+    </h3>
+
+    <div class="countdown">
+      <div class="count-box">
+        <strong id="days">--</strong>
+        <span data-it="Giorni" data-ar="أيام">Giorni</span>
+      </div>
+      <div class="count-box">
+        <strong id="hours">--</strong>
+        <span data-it="Ore" data-ar="ساعات">Ore</span>
+      </div>
+      <div class="count-box">
+        <strong id="minutes">--</strong>
+        <span data-it="Minuti" data-ar="دقائق">Minuti</span>
+      </div>
+      <div class="count-box">
+        <strong id="seconds">--</strong>
+        <span data-it="Secondi" data-ar="ثوانٍ">Secondi</span>
+      </div>
+    </div>
+
+    <div class="floral">❦</div>
+
+    <h3 data-it="I nostri ricordi" data-ar="ذكرياتنا">
+      I nostri ricordi
+    </h3>
+
+    <p class="rsvp-note"
+       data-it="Qui aggiungeremo le nostre foto preferite."
+       data-ar="سنضيف هنا صورنا المفضلة">
+      Qui aggiungeremo le nostre foto preferite.
+    </p>
+
+    <div class="gallery">
+      <div class="photo" data-it="La nostra foto preferita"
+           data-ar="صورتنا المفضلة">
+        La nostra foto preferita
+      </div>
+      <div class="photo" data-it="Un ricordo speciale"
+           data-ar="ذكرى مميزة">
+        Un ricordo speciale
+      </div>
+      <div class="photo" data-it="Un momento insieme"
+           data-ar="لحظة معًا">
+        Un momento insieme
+      </div>
+    </div>
+
+    <div class="details">
+      <h3 data-it="Conferma la tua presenza"
+          data-ar="تأكيد الحضور">
+        Conferma la tua presenza
+      </h3>
+
+      <p class="rsvp-note"
+         data-it="Ci farebbe piacere sapere se potrai festeggiare con noi."
+         data-ar="يسعدنا معرفة ما إذا كنت ستشاركنا فرحتنا">
+        Ci farebbe piacere sapere se potrai festeggiare con noi.
+      </p>
+
+      <!-- Sostituire questo link con quello del modulo RSVP -->
+      <a class="action" href="https://forms.google.com/"
+         target="_blank" rel="noopener"
+         data-it="Conferma qui" data-ar="أكد حضورك هنا">
+        Conferma qui
+      </a>
+    </div>
+
+    <h3 data-it="Una canzone per noi" data-ar="أغنية مميزة لنا">
+      Una canzone per noi
+    </h3>
+
+    <p class="rsvp-note"
+       data-it="Premi play per ascoltare la musica."
+       data-ar="اضغط تشغيل للاستماع إلى الموسيقى">
+      Premi play per ascoltare la musica.
+    </p>
+
+    <div class="music-player">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/-hb2tecD13s"
+        title="Musica del matrimonio"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="floral">❦ ✧ ❦</div>
+    <p class="message"
+       data-it="Non vediamo l'ora di festeggiare con voi!"
+       data-ar="نتطلع للاحتفال معكم!">
+      Non vediamo l'ora di festeggiare con voi!
+    </p>
+  </main>
+
+  <footer>Moussa &amp; Simona</footer>
+
+  <script>
+    let currentLanguage = "it";
+
+    function openInvitation() {
+      const envelope = document.getElementById("envelope");
+      const invitation = document.getElementById("invitation");
+
+      envelope.classList.add("open");
+
+      setTimeout(() => {
+        invitation.classList.add("show");
+        invitation.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 650);
+    }
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === "it" ? "ar" : "it";
+
+      document.documentElement.lang = currentLanguage;
+      document.documentElement.dir =
+        currentLanguage === "ar" ? "rtl" : "ltr";
+
+      document.querySelectorAll("[data-it]").forEach(element => {
+        element.textContent =
+          element.getAttribute("data-" + currentLanguage);
+      });
+
+      document.getElementById("languageButton").textContent =
+        currentLanguage === "it" ? "العربية" : "Italiano";
+    }
+
+    function updateCountdown() {
+      // Ora indicativa: 18:00, ora locale del Cairo.
+      const weddingDate = new Date("2027-04-06T18:00:00+02:00");
+      const now = new Date();
+      const difference = weddingDate.getTime() - now.getTime();
+
+      if (difference <= 0) {
+        ["days", "hours", "minutes", "seconds"].forEach(id => {
+          document.getElementById(id).textContent = "0";
+        });
+        return;
+      }
+
+      document.getElementById("days").textContent =
+        Math.floor(difference / (1000 * 60 * 60 * 24));
+
+      document.getElementById("hours").textContent =
+        Math.floor((difference / (1000 * 60 * 60)) % 24);
+
+      document.getElementById("minutes").textContent =
+        Math.floor((difference / (1000 * 60)) % 60);
+
+      document.getElementById("seconds").textContent =
+        Math.floor((difference / 1000) % 60);
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
