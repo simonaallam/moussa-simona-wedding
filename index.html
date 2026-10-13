@@ -3,22 +3,23 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f8f2e9">
-  <title>Moussa & Simona — Wedding Invitation</title>
+  <meta name="description" content="L'invito al matrimonio di Moussa & Simona — 6 aprile 2027">
+  <title>Moussa & Simona | Wedding Invitation</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --paper: #fbf7f0;
-      --cream: #f1e6d7;
-      --champagne: #d8c09e;
-      --gold: #a88754;
-      --ink: #544438;
-      --muted: #877665;
+      --ivory: #fbf7f0;
+      --cream: #f2e7d6;
+      --champagne: #c4a77d;
+      --gold: #a88654;
+      --brown: #514238;
+      --muted: #887969;
       --white: #fffdf9;
     }
 
@@ -28,729 +29,963 @@
 
     body {
       margin: 0;
-      background: var(--paper);
-      color: var(--ink);
+      background: var(--ivory);
+      color: var(--brown);
       font-family: "Cormorant Garamond", serif;
-      text-align: center;
+      font-size: 20px;
     }
+
+    body.locked { overflow: hidden; }
+
+    button, input, select, textarea { font: inherit; }
 
     button, a { -webkit-tap-highlight-color: transparent; }
 
-    button { font: inherit; }
+    a { color: inherit; }
 
-    .language {
+    .hidden { display: none !important; }
+
+    /* Apertura della busta */
+    #intro {
       position: fixed;
-      top: 16px;
-      right: 16px;
-      z-index: 30;
-    }
-
-    .language button {
-      background: #fffdf9e8;
-      color: var(--ink);
-      border: 1px solid var(--champagne);
-      border-radius: 30px;
-      padding: 9px 15px;
-      font-size: 14px;
-      box-shadow: 0 3px 15px #66513c12;
-    }
-
-    .cover {
-      min-height: 100svh;
-      padding: 75px 20px 38px;
+      inset: 0;
+      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
+      padding: 24px;
       background:
-        radial-gradient(ellipse at 50% 40%, #fffdf9 0%, #f8f0e5 72%);
+        radial-gradient(ellipse at center, #fffdf8 0%, #f4e8d7 100%);
+      transition: opacity 1s ease, visibility 1s ease;
     }
 
-    .cover::before {
-      content: "";
-      position: absolute;
-      inset: 14px;
-      border: 1px solid #c8ad84;
+    #intro.closed {
+      opacity: 0;
+      visibility: hidden;
       pointer-events: none;
     }
 
-    .cover::after {
-      content: "❦";
-      position: absolute;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--gold);
-      font-size: 27px;
+    .intro-content {
+      width: min(440px, 100%);
+      text-align: center;
     }
 
-    .small-caps {
-      text-transform: uppercase;
-      letter-spacing: 4px;
+    .intro-kicker {
       font-size: 12px;
-      color: var(--muted);
-    }
-
-    .cover h1 {
-      font-family: "Great Vibes", cursive;
-      font-size: clamp(52px, 13vw, 82px);
-      line-height: 1.2;
-      font-weight: 400;
+      letter-spacing: 5px;
+      text-transform: uppercase;
       color: var(--gold);
-      margin: 20px 0 4px;
-    }
-
-    .cover-date {
-      letter-spacing: 4px;
-      font-size: 16px;
-      margin: 12px 0 27px;
-    }
-
-    .envelope-wrap {
-      width: min(82vw, 360px);
-      margin: 16px auto 28px;
-      perspective: 1200px;
+      margin-bottom: 35px;
     }
 
     .envelope {
       position: relative;
-      width: 100%;
-      height: 225px;
+      width: min(320px, 85vw);
+      height: 205px;
+      margin: 0 auto 35px;
+      background: #e7d5bb;
+      box-shadow: 0 18px 45px #826d4c25;
+      border: 1px solid #c7ae89;
       cursor: pointer;
-      background: #e4d0b7;
-      box-shadow: 0 20px 45px #80664822;
-      isolation: isolate;
+      perspective: 800px;
     }
 
-    .envelope-back {
+    .envelope::before {
+      content: "";
       position: absolute;
       inset: 0;
-      background: #eadbc8;
-    }
-
-    .letter {
-      position: absolute;
-      z-index: 1;
-      left: 7%;
-      top: 12px;
-      width: 86%;
-      height: 195px;
-      padding: 22px 10px;
-      background: var(--white);
-      border: 1px solid #e1cdb1;
-      transition: transform 1s ease;
-    }
-
-    .letter .monogram {
-      font-family: "Great Vibes", cursive;
-      color: var(--gold);
-      font-size: 36px;
-      margin: 12px 0;
-    }
-
-    .letter p {
-      font-size: 15px;
-      letter-spacing: 2px;
-      margin: 8px 0;
-    }
-
-    .front-left, .front-right, .front-bottom {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .front-left {
-      background: #f0e1cf;
-      clip-path: polygon(0 0, 51% 52%, 0 100%);
-    }
-
-    .front-right {
-      background: #e0c9ad;
-      clip-path: polygon(100% 0, 49% 52%, 100% 100%);
-    }
-
-    .front-bottom {
-      background: #ead7bf;
-      clip-path: polygon(0 100%, 50% 43%, 100% 100%);
-    }
-
-    .flap {
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-      background: #f7ebdc;
+      z-index: 2;
+      background: linear-gradient(145deg, #f5e8d6, #e8d4b8);
       clip-path: polygon(0 0, 100% 0, 50% 57%);
-      transform-origin: top center;
-      transition: transform 0.9s ease;
     }
 
-    .seal {
+    .envelope::after {
+      content: "";
       position: absolute;
-      z-index: 6;
-      top: 88px;
+      inset: 0;
+      z-index: 1;
+      background: #ddc4a1;
+      clip-path: polygon(0 100%, 0 0, 50% 55%, 100% 0, 100% 100%);
+    }
+
+    .envelope-seal {
+      position: absolute;
+      z-index: 3;
       left: 50%;
-      transform: translateX(-50%);
-      height: 54px;
-      width: 54px;
+      top: 54%;
+      transform: translate(-50%, -50%);
+      width: 57px;
+      height: 57px;
+      border-radius: 50%;
       display: grid;
       place-items: center;
-      border-radius: 50%;
-      background: #ae896d;
-      border: 2px solid #d5b99a;
-      color: #fff8ec;
+      background: #b99a6d;
+      border: 2px solid #f4e5cd;
+      color: white;
       font-family: "Great Vibes", cursive;
-      font-size: 25px;
-      box-shadow: 0 4px 12px #674a342b;
-      transition: opacity .4s ease;
+      font-size: 28px;
+      box-shadow: 0 3px 12px #6b4d3025;
     }
 
-    .envelope.open .flap {
-      transform: rotateX(180deg);
-      z-index: 0;
+    .intro-names {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(42px, 10vw, 59px);
+      line-height: 1.3;
+      color: var(--gold);
+      margin: 0 0 10px;
     }
 
-    .envelope.open .seal { opacity: 0; }
-
-    .envelope.open .letter {
-      transform: translateY(-115px);
-      z-index: 4;
-    }
-
-    .open-button, .button {
-      border: 1px solid var(--gold);
-      background: transparent;
-      color: var(--ink);
-      padding: 12px 24px;
+    .intro-subtitle {
+      font-size: 16px;
       letter-spacing: 2px;
-      font-size: 13px;
-      text-transform: uppercase;
-      text-decoration: none;
+      margin-bottom: 28px;
+    }
+
+    .open-button, .outline-button, .gold-button {
       display: inline-block;
+      border: 1px solid var(--gold);
+      padding: 13px 28px;
+      background: transparent;
+      color: var(--brown);
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 12px;
       cursor: pointer;
-      transition: background .3s ease;
+      transition: .3s ease;
     }
 
-    .open-button:hover, .button:hover {
-      background: var(--cream);
+    .open-button:hover, .outline-button:hover, .gold-button:hover {
+      background: var(--gold);
+      color: white;
     }
 
-    .cover-note {
-      color: var(--muted);
-      font-size: 17px;
-      font-style: italic;
-      margin-top: 12px;
+    /* Layout generale */
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--champagne);
+      margin: 22px auto;
+      font-size: 20px;
     }
 
-    .content { display: none; }
-
-    .content.visible {
-      display: block;
-      animation: fadeIn 1.2s ease both;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .ornament::before, .ornament::after {
+      content: "";
+      width: 52px;
+      height: 1px;
+      background: var(--champagne);
     }
 
     .section {
-      padding: 72px 22px;
-      max-width: 760px;
-      margin: auto;
+      padding: 80px 22px;
+      text-align: center;
+      position: relative;
     }
 
-    .section + .section {
-      border-top: 1px solid #e8dac8;
+    .section-inner {
+      width: min(780px, 100%);
+      margin: 0 auto;
     }
 
-    .ornament {
-      color: var(--gold);
-      font-size: 27px;
-      letter-spacing: 7px;
-      margin: 0 0 20px;
-    }
-
-    .script-title {
-      font-family: "Great Vibes", cursive;
-      font-weight: 400;
-      color: var(--gold);
-      font-size: clamp(43px, 10vw, 65px);
-      margin: 8px 0 18px;
-    }
-
-    .names {
+    .eyebrow {
       font-family: "Playfair Display", serif;
-      font-size: clamp(28px, 7vw, 42px);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--gold);
+    }
+
+    .section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(30px, 7vw, 43px);
       font-weight: 400;
-      margin: 18px 0;
+      margin: 15px 0;
+    }
+
+    .section-text {
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.65;
+      color: var(--muted);
+      font-size: 21px;
+    }
+
+    /* Copertina */
+    .hero {
+      min-height: 94svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 75px 20px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(#fbf7f0e8, #fbf7f0e8),
+        radial-gradient(ellipse at 15% 20%, #dfc9a9 0%, transparent 40%),
+        radial-gradient(ellipse at 85% 80%, #e9d8c1 0%, transparent 42%);
+    }
+
+    .hero::before, .hero::after {
+      content: "❧";
+      position: absolute;
+      color: #c4a77d75;
+      font-size: 170px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .hero::before { top: 10px; left: -10px; transform: rotate(-30deg); }
+    .hero::after { bottom: 5px; right: -10px; transform: rotate(150deg); }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      width: 100%;
+      text-align: center;
+      animation: fadeUp 1.4s ease both;
+    }
+
+    .hero-top {
+      letter-spacing: 5px;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 35px;
+    }
+
+    .hero-names {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(66px, 13vw, 110px);
+      font-weight: 400;
+      color: var(--gold);
+      line-height: 1.18;
+      margin: 10px 0;
     }
 
     .ampersand {
-      font-family: "Great Vibes", cursive;
-      color: var(--gold);
-      font-size: 1.4em;
-      padding: 0 5px;
+      display: block;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 36px;
+      color: var(--champagne);
+      margin: -3px 0;
     }
 
-    .body-copy {
-      font-size: 21px;
-      line-height: 1.7;
-      max-width: 530px;
-      margin: 20px auto;
-    }
-
-    .wedding-date {
+    .hero-date {
       font-family: "Playfair Display", serif;
-      font-size: 23px;
+      font-size: 18px;
       letter-spacing: 3px;
-      margin: 30px 0 10px;
+      margin-top: 28px;
     }
+
+    .hero-arabic {
+      font-family: "Amiri", serif;
+      font-size: 25px;
+      margin-top: 15px;
+      color: var(--muted);
+      direction: rtl;
+    }
+
+    .scroll-cue {
+      margin-top: 40px;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* Countdown */
+    .countdown-section { background: var(--white); }
 
     .countdown {
       display: flex;
       justify-content: center;
+      gap: clamp(12px, 4vw, 35px);
+      margin-top: 38px;
       flex-wrap: wrap;
-      gap: 10px;
-      margin: 28px auto;
     }
 
-    .count-box {
-      width: 76px;
-      padding: 14px 5px;
-      border: 1px solid #d9c3a4;
-      background: #fffdf9;
+    .count-item {
+      min-width: 66px;
+      padding: 15px 8px;
     }
 
-    .count-box strong {
+    .count-number {
       display: block;
       font-family: "Playfair Display", serif;
-      font-size: 27px;
-      font-weight: 400;
+      color: var(--gold);
+      font-size: clamp(32px, 7vw, 49px);
+      line-height: 1.1;
     }
 
-    .count-box span {
+    .count-label {
+      display: block;
+      margin-top: 9px;
       font-size: 12px;
-      letter-spacing: 1px;
-    }
-
-    .feature {
-      background: #f2e8db;
-      padding: 38px 20px;
-      border-top: 1px solid #e0ceb6;
-      border-bottom: 1px solid #e0ceb6;
-    }
-
-    .feature h3 {
-      font-size: 26px;
-      font-weight: 500;
-      margin: 8px 0 14px;
-    }
-
-    .location-name {
-      font-family: Tahoma, sans-serif;
-      font-size: 22px;
-      line-height: 1.9;
-      direction: rtl;
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 25px auto;
-    }
-
-    .photo-placeholder {
-      min-height: 190px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-      background: linear-gradient(145deg, #eee0ce, #f9f3e9);
-      border: 1px solid #dfccb3;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       color: var(--muted);
-      font-style: italic;
+    }
+
+    /* Programma */
+    .timeline {
+      max-width: 510px;
+      margin: 38px auto 0;
+      text-align: left;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 32px 34px;
+      border-left: 1px solid #d7c4a7;
+    }
+
+    .timeline-item:last-child {
+      border-left-color: transparent;
+      padding-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 6px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--champagne);
+    }
+
+    .timeline-time {
+      color: var(--gold);
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    .timeline-title {
+      font-family: "Playfair Display", serif;
+      font-size: 23px;
+      margin: 5px 0;
+    }
+
+    .timeline-desc {
+      color: var(--muted);
       font-size: 17px;
     }
 
-    .photo-placeholder:first-child {
-      grid-column: 1 / -1;
-      min-height: 250px;
+    /* Location */
+    .location-section {
+      background: #f1e6d6;
+      background-image: radial-gradient(ellipse at top right, #fff9f0aa, transparent 60%);
     }
 
-    .music-card {
-      max-width: 420px;
-      margin: 25px auto 0;
-      padding: 26px 18px;
-      background: #f4eadd;
-      border: 1px solid #dfc9aa;
+    .venue-name {
+      font-family: "Amiri", serif;
+      font-size: 31px;
+      direction: rtl;
+      margin: 22px 0 10px;
     }
 
-    .music-icon {
-      font-size: 28px;
-      color: var(--gold);
+    .location-note {
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 28px;
     }
 
-    .music-card h3 {
-      font-weight: 400;
-      font-family: "Playfair Display", serif;
-      font-size: 22px;
+    /* RSVP */
+    .rsvp-form {
+      max-width: 470px;
+      margin: 30px auto 0;
+      text-align: left;
     }
 
-    .music-card audio {
-      width: 100%;
-      margin-top: 15px;
-    }
+    .form-field { margin-bottom: 18px; }
 
-    .music-hint {
-      font-size: 15px;
+    .form-field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 16px;
       color: var(--muted);
     }
 
+    .form-field input, .form-field select {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d8c8b1;
+      background: #fffdf9;
+      color: var(--brown);
+      border-radius: 0;
+      outline-color: var(--gold);
+    }
+
+    .rsvp-form .gold-button { width: 100%; }
+
+    .rsvp-note {
+      font-size: 15px;
+      color: var(--muted);
+      margin-top: 18px;
+      line-height: 1.5;
+    }
+
+    /* Footer e controlli */
     footer {
-      padding: 36px 15px 50px;
-      border-top: 1px solid #e8dac8;
+      text-align: center;
+      padding: 50px 20px 35px;
+      background: #e9ddcb;
+    }
+
+    .footer-names {
+      font-family: "Great Vibes", cursive;
+      font-size: 43px;
       color: var(--gold);
-      font-family: "Great Vibes", cursive;
-      font-size: 34px;
     }
 
-    [dir="rtl"] {
-      font-family: Tahoma, sans-serif;
+    .footer-small {
+      margin-top: 12px;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
-    [dir="rtl"] .small-caps {
-      letter-spacing: 0;
+    .floating-controls {
+      position: fixed;
+      z-index: 50;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      gap: 8px;
     }
 
-    [dir="rtl"] .body-copy {
-      line-height: 2;
+    .control-button {
+      background: #fffdf0e8;
+      border: 1px solid #c4a77d;
+      color: var(--brown);
+      padding: 9px 12px;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 3px 12px #5d4c3010;
     }
 
-    [dir="rtl"] .cover h1,
-    [dir="rtl"] .script-title,
-    [dir="rtl"] footer {
-      font-family: "Great Vibes", cursive;
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .8s ease, transform .8s ease;
     }
 
-    @media (max-width: 380px) {
-      .envelope { height: 205px; }
-      .letter { height: 180px; }
-      .count-box { width: 68px; }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body[dir="rtl"] { font-family: "Amiri", serif; }
+    body[dir="rtl"] .timeline { text-align: right; }
+    body[dir="rtl"] .timeline-item {
+      border-left: 0;
+      border-right: 1px solid #d7c4a7;
+      padding: 0 34px 32px 0;
+    }
+    body[dir="rtl"] .timeline-item:last-child { border-right-color: transparent; }
+    body[dir="rtl"] .timeline-item::before { left: auto; right: -5px; }
+    body[dir="rtl"] .rsvp-form { text-align: right; }
+    body[dir="rtl"] .form-field input,
+    body[dir="rtl"] .form-field select { text-align: right; }
+    body[dir="rtl"] .floating-controls { right: auto; left: 15px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         scroll-behavior: auto !important;
-        transition-duration: .01ms !important;
         animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
       }
+    }
+
+    @media (max-width: 480px) {
+      .section { padding: 65px 20px; }
+      .hero { min-height: 88svh; }
+      .hero-top { letter-spacing: 3px; }
+      .countdown { gap: 5px; }
+      .count-item { min-width: 65px; }
+      .envelope { height: 180px; }
     }
   </style>
 </head>
 
-<body>
-  <div class="language">
-    <button id="languageButton" onclick="toggleLanguage()">العربية</button>
+<body class="locked">
+
+  <!-- Apertura -->
+  <div id="intro">
+    <div class="intro-content">
+      <div class="intro-kicker">You are invited</div>
+
+      <div class="envelope" id="envelope" role="button"
+           tabindex="0" aria-label="Apri l'invito">
+        <div class="envelope-seal">M &amp; S</div>
+      </div>
+
+      <h1 class="intro-names">Moussa &amp; Simona</h1>
+      <div class="intro-subtitle">UN GIORNO · UN AMORE · PER SEMPRE</div>
+
+      <button class="open-button" id="openInvite" type="button">
+        Apri l'invito
+      </button>
+    </div>
   </div>
 
-  <header class="cover" id="cover">
-    <p class="small-caps"
-       data-it="Con gioia vi invitiamo al nostro matrimonio"
-       data-ar="بكل حب ندعوكم لحضور حفل زفافنا">
-      Con gioia vi invitiamo al nostro matrimonio
-    </p>
-
-    <h1>Moussa &amp; Simona</h1>
-    <p class="cover-date">06 · 04 · 2027</p>
-
-    <div class="envelope-wrap">
-      <div class="envelope" id="envelope">
-        <div class="envelope-back"></div>
-        <div class="letter">
-          <p class="small-caps">YOU ARE INVITED</p>
-          <div class="monogram">M · S</div>
-          <p>06 APRIL 2027</p>
-        </div>
-        <div class="front-left"></div>
-        <div class="front-right"></div>
-        <div class="front-bottom"></div>
-        <div class="flap"></div>
-        <div class="seal">M·S</div>
-      </div>
-    </div>
-
-    <button class="open-button" onclick="openInvitation()"
-            data-it="Apri il nostro invito"
-            data-ar="افتحوا دعوتنا">
-      Apri il nostro invito
+  <div class="floating-controls">
+    <button class="control-button" id="languageButton" type="button"
+            aria-label="Cambia lingua">عربي</button>
+    <button class="control-button" id="musicButton" type="button">
+      ♫ Musica
     </button>
+  </div>
 
-    <p class="cover-note"
-       data-it="Una storia d'amore, un nuovo capitolo."
-       data-ar="قصة حب وفصل جديد من الحياة">
-      Una storia d'amore, un nuovo capitolo.
-    </p>
-  </header>
+  <!--
+    MUSICA:
+    Carica nel repository un file audio royalty-free chiamato music.mp3.
+    Il pulsante attiva la musica solo dopo un'interazione dell'utente.
+  -->
+  <audio id="weddingMusic" src="music.mp3" loop preload="none"></audio>
 
-  <main class="content" id="content">
-    <section class="section">
-      <div class="ornament">❦ ✧ ❦</div>
-      <p class="small-caps"
-         data-it="Insieme per sempre"
-         data-ar="معًا إلى الأبد">
-        Insieme per sempre
-      </p>
-
-      <h2 class="script-title"
-          data-it="Ci sposiamo"
-          data-ar="سنتزوج">
-        Ci sposiamo
-      </h2>
-
-      <div class="names">
-        Moussa <span class="ampersand">&amp;</span> Simona
-      </div>
-
-      <p class="body-copy"
-         data-it="Ci sono momenti che diventano ricordi preziosi e giorni che restano per sempre nel cuore. Saremo felici di condividere con voi l'inizio della nostra nuova vita insieme."
-         data-ar="هناك لحظات تصبح ذكريات ثمينة وأيام تبقى في القلب إلى الأبد. يسعدنا أن نشارككم بداية حياتنا الجديدة معًا.">
-        Ci sono momenti che diventano ricordi preziosi e giorni che restano per sempre nel cuore. Saremo felici di condividere con voi l'inizio della nostra nuova vita insieme.
-      </p>
-
-      <div class="ornament">❀</div>
-      <p class="wedding-date">6 APRILE 2027</p>
-      <p data-it="Non vediamo l'ora di festeggiare con voi"
-         data-ar="نتطلع للاحتفال معكم">
-        Non vediamo l'ora di festeggiare con voi
-      </p>
-    </section>
-
-    <section class="feature">
-      <div class="ornament">✧</div>
-      <h3 data-it="Il nostro giorno speciale"
-          data-ar="يومنا المميز">
-        Il nostro giorno speciale
-      </h3>
-
-      <div class="countdown">
-        <div class="count-box">
-          <strong id="days">--</strong>
-          <span data-it="Giorni" data-ar="أيام">Giorni</span>
+  <main>
+    <!-- Copertina -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="hero-top" data-it="Con le nostre famiglie"
+             data-ar="بكل الحب وبمباركة عائلتينا">
+          Con le nostre famiglie
         </div>
-        <div class="count-box">
-          <strong id="hours">--</strong>
-          <span data-it="Ore" data-ar="ساعات">Ore</span>
+
+        <div class="eyebrow" data-it="Siamo felici di invitarvi al nostro matrimonio"
+             data-ar="يسعدنا دعوتكم لحضور حفل زفافنا">
+          Siamo felici di invitarvi al nostro matrimonio
         </div>
-        <div class="count-box">
-          <strong id="minutes">--</strong>
-          <span data-it="Minuti" data-ar="دقائق">Minuti</span>
+
+        <h1 class="hero-names">
+          Moussa
+          <span class="ampersand">&amp;</span>
+          Simona
+        </h1>
+
+        <div class="ornament">✦</div>
+
+        <div class="hero-date" data-it="MARTEDÌ · 6 APRILE 2027"
+             data-ar="الثلاثاء · ٦ أبريل ٢٠٢٧">
+          MARTEDÌ · 6 APRILE 2027
         </div>
-        <div class="count-box">
-          <strong id="seconds">--</strong>
-          <span data-it="Secondi" data-ar="ثوانٍ">Secondi</span>
+
+        <div class="hero-arabic" lang="ar" dir="rtl">
+          موسى &amp; سيمونا
+        </div>
+
+        <div class="scroll-cue" data-it="Una nuova storia comincia"
+             data-ar="وتبدأ حكاية جديدة">
+          Una nuova storia comincia
         </div>
       </div>
     </section>
 
+    <!-- Messaggio -->
     <section class="section">
-      <div class="ornament">❦</div>
-      <h2 class="script-title"
-          data-it="Dove ci incontreremo"
-          data-ar="مكان لقائنا">
-        Dove ci incontreremo
-      </h2>
-
-      <p class="small-caps"
-         data-it="La location"
-         data-ar="مكان الحفل">
-        La location
-      </p>
-
-      <p class="location-name">قاعة روتانا المعادي</p>
-
-      <p class="body-copy"
-         data-it="Sarà un piacere avervi accanto in questo giorno indimenticabile."
-         data-ar="يسعدنا وجودكم بجانبنا في هذا اليوم الذي لا يُنسى.">
-        Sarà un piacere avervi accanto in questo giorno indimenticabile.
-      </p>
-
-      <a class="button"
-         href="https://www.google.com/maps/search/?api=1&query=قاعة+روتانا+المعادي"
-         target="_blank" rel="noopener"
-         data-it="Apri Google Maps"
-         data-ar="افتح خرائط جوجل">
-        Apri Google Maps
-      </a>
-    </section>
-
-    <section class="section">
-      <div class="ornament">✧ ❀ ✧</div>
-      <h2 class="script-title"
-          data-it="I nostri ricordi"
-          data-ar="ذكرياتنا">
-        I nostri ricordi
-      </h2>
-
-      <p class="body-copy"
-         data-it="Ogni foto racconta un piccolo pezzo della nostra storia."
-         data-ar="كل صورة تحكي جزءًا صغيرًا من قصتنا.">
-        Ogni foto racconta un piccolo pezzo della nostra storia.
-      </p>
-
-      <div class="photo-grid">
-        <div class="photo-placeholder"
-             data-it="Qui inseriremo la nostra foto"
-             data-ar="سنضع صورتنا هنا">
-          Qui inseriremo la nostra foto
+      <div class="section-inner reveal">
+        <div class="eyebrow" data-it="Il nostro giorno speciale"
+             data-ar="يومنا المميز">
+          Il nostro giorno speciale
         </div>
-        <div class="photo-placeholder"
-             data-it="Un ricordo speciale"
-             data-ar="ذكرى مميزة">
-          Un ricordo speciale
-        </div>
-        <div class="photo-placeholder"
-             data-it="Un momento insieme"
-             data-ar="لحظة معًا">
-          Un momento insieme
-        </div>
-      </div>
-    </section>
 
-    <section class="section">
-      <div class="ornament">❦</div>
-      <h2 class="script-title"
-          data-it="Sarete dei nostri?"
-          data-ar="هل ستشاركوننا فرحتنا؟">
-        Sarete dei nostri?
-      </h2>
+        <h2 class="section-title" data-it="L'inizio del per sempre"
+            data-ar="بداية العمر كله">
+          L'inizio del per sempre
+        </h2>
 
-      <p class="body-copy"
-         data-it="La vostra presenza renderà questo giorno ancora più speciale. Fateci sapere se sarete con noi."
-         data-ar="وجودكم سيجعل هذا اليوم أكثر تميزًا. أخبرونا إذا كنتم ستشاركوننا.">
-        La vostra presenza renderà questo giorno ancora più speciale. Fateci sapere se sarete con noi.
-      </p>
+        <div class="ornament">❦</div>
 
-      <!-- Inserire qui il link del vostro modulo Google Forms -->
-      <a class="button"
-         href="https://forms.google.com/"
-         target="_blank" rel="noopener"
-         data-it="Conferma la tua presenza"
-         data-ar="تأكيد الحضور">
-        Conferma la tua presenza
-      </a>
-    </section>
-
-    <section class="section">
-      <div class="ornament">♫</div>
-      <h2 class="script-title"
-          data-it="La nostra melodia"
-          data-ar="لحننا الخاص">
-        La nostra melodia
-      </h2>
-
-      <p class="body-copy"
-         data-it="Una melodia romantica per accompagnare il nostro giorno speciale."
-         data-ar="لحن رومانسي يرافق يومنا المميز.">
-        Una melodia romantica per accompagnare il nostro giorno speciale.
-      </p>
-
-      <div class="music-card">
-        <div class="music-icon">♪ ♡ ♪</div>
-        <h3>Entwined Hearts</h3>
-        <p class="music-hint"
-           data-it="Premi play per ascoltare"
-           data-ar="اضغط تشغيل للاستماع">
-          Premi play per ascoltare
-        </p>
-
-        <audio id="weddingMusic" controls preload="none">
-          <source src="entwined-hearts.mp3" type="audio/mpeg">
-          Il tuo browser non supporta il player audio.
-        </audio>
-
-        <p class="music-hint"
-           data-it="La musica verrà riprodotta dopo aver premuto play."
-           data-ar="ستبدأ الموسيقى بعد الضغط على تشغيل.">
-          La musica verrà riprodotta dopo aver premuto play.
+        <p class="section-text"
+           data-it="Con il cuore pieno di gioia, desideriamo condividere con voi uno dei momenti più importanti della nostra vita. La vostra presenza renderà questo giorno ancora più speciale."
+           data-ar="بكل الفرح والحب، نتمنى أن تشاركونا واحدة من أجمل لحظات حياتنا. وجودكم معنا سيجعل يومنا أكثر سعادة وتميزًا.">
+          Con il cuore pieno di gioia, desideriamo condividere con voi uno dei momenti più importanti della nostra vita. La vostra presenza renderà questo giorno ancora più speciale.
         </p>
       </div>
     </section>
 
-    <footer>
-      With love, Moussa &amp; Simona
-      <div class="ornament">❦</div>
-      <p class="small-caps"
-         data-it="6 aprile 2027"
-         data-ar="٦ أبريل ٢٠٢٧">
-        6 aprile 2027
-      </p>
-    </footer>
+    <!-- Countdown -->
+    <section class="section countdown-section">
+      <div class="section-inner reveal">
+        <div class="eyebrow" data-it="Il conto alla rovescia"
+             data-ar="العد التنازلي">
+          Il conto alla rovescia
+        </div>
+
+        <h2 class="section-title" data-it="Manca sempre meno"
+            data-ar="لم يتبقَّ الكثير">
+          Manca sempre meno
+        </h2>
+
+        <div class="ornament">✦</div>
+
+        <div class="countdown" aria-label="Conto alla rovescia">
+          <div class="count-item">
+            <span class="count-number" id="days">000</span>
+            <span class="count-label" data-it="Giorni" data-ar="يوم">Giorni</span>
+          </div>
+          <div class="count-item">
+            <span class="count-number" id="hours">00</span>
+            <span class="count-label" data-it="Ore" data-ar="ساعة">Ore</span>
+          </div>
+          <div class="count-item">
+            <span class="count-number" id="minutes">00</span>
+            <span class="count-label" data-it="Minuti" data-ar="دقيقة">Minuti</span>
+          </div>
+          <div class="count-item">
+            <span class="count-number" id="seconds">00</span>
+            <span class="count-label" data-it="Secondi" data-ar="ثانية">Secondi</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Programma -->
+    <section class="section">
+      <div class="section-inner reveal">
+        <div class="eyebrow" data-it="Segnate la data"
+             data-ar="احفظوا الموعد">
+          Segnate la data
+        </div>
+
+        <h2 class="section-title" data-it="Il programma"
+            data-ar="برنامج اليوم">
+          Il programma
+        </h2>
+
+        <div class="ornament">❦</div>
+
+        <!-- Modifica gli orari quando avrai il programma definitivo -->
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-time" data-it="ORARIO DA CONFERMARE"
+                 data-ar="الوقت سيتم تأكيده">
+              ORARIO DA CONFERMARE
+            </div>
+            <div class="timeline-title" data-it="L'arrivo degli invitati"
+                 data-ar="استقبال الضيوف">
+              L'arrivo degli invitati
+            </div>
+            <div class="timeline-desc" data-it="Ci ritroviamo per condividere la gioia di questo giorno."
+                 data-ar="نجتمع معًا لنشارك فرحة هذا اليوم الجميل.">
+              Ci ritroviamo per condividere la gioia di questo giorno.
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-time" data-it="ORARIO DA CONFERMARE"
+                 data-ar="الوقت سيتم تأكيده">
+              ORARIO DA CONFERMARE
+            </div>
+            <div class="timeline-title" data-it="La celebrazione"
+                 data-ar="الاحتفال">
+              La celebrazione
+            </div>
+            <div class="timeline-desc" data-it="Un momento indimenticabile da vivere insieme."
+                 data-ar="لحظات جميلة وذكريات لا تُنسى معًا.">
+              Un momento indimenticabile da vivere insieme.
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-time" data-it="ORARIO DA CONFERMARE"
+                 data-ar="الوقت سيتم تأكيده">
+              ORARIO DA CONFERMARE
+            </div>
+            <div class="timeline-title" data-it="Musica, sorrisi e festa"
+                 data-ar="الموسيقى والفرح والاحتفال">
+              Musica, sorrisi e festa
+            </div>
+            <div class="timeline-desc" data-it="Festeggiamo insieme l'inizio della nostra nuova vita."
+                 data-ar="نحتفل معًا ببداية حياتنا الجديدة.">
+              Festeggiamo insieme l'inizio della nostra nuova vita.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Location -->
+    <section class="section location-section">
+      <div class="section-inner reveal">
+        <div class="eyebrow" data-it="Dove ci incontreremo"
+             data-ar="مكان لقائنا">
+          Dove ci incontreremo
+        </div>
+
+        <h2 class="section-title" data-it="La location"
+            data-ar="مكان الحفل">
+          La location
+        </h2>
+
+        <div class="ornament">✦</div>
+
+        <div class="venue-name" lang="ar" dir="rtl">
+          قاعة روتانا المعادي
+        </div>
+
+        <p class="location-note"
+           data-it="Rotana Hall, Maadi · Cairo, Egitto"
+           data-ar="قاعة روتانا المعادي · القاهرة، مصر">
+          Rotana Hall, Maadi · Cairo, Egitto
+        </p>
+
+        <a class="outline-button"
+           href="https://www.google.com/maps/search/?api=1&amp;query=Rotana+Hall+Maadi+Cairo"
+           target="_blank" rel="noopener noreferrer"
+           data-it="Apri Google Maps"
+           data-ar="افتحي الموقع على خرائط جوجل">
+          Apri Google Maps
+        </a>
+      </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="section" id="rsvp">
+      <div class="section-inner reveal">
+        <div class="eyebrow" data-it="La vostra presenza è un regalo"
+             data-ar="وجودكم معنا أجمل هدية">
+          La vostra presenza è un regalo
+        </div>
+
+        <h2 class="section-title" data-it="Confermate la vostra presenza"
+            data-ar="يرجى تأكيد الحضور">
+          Confermate la vostra presenza
+        </h2>
+
+        <div class="ornament">❦</div>
+
+        <p class="section-text"
+           data-it="Fateci sapere se sarete con noi per rendere questo giorno indimenticabile."
+           data-ar="أخبرونا إذا كنتم ستشاركوننا هذا اليوم المميز.">
+          Fateci sapere se sarete con noi per rendere questo giorno indimenticabile.
+        </p>
+
+        <form class="rsvp-form" id="rsvpForm">
+          <div class="form-field">
+            <label for="guestName" data-it="Il vostro nome"
+                   data-ar="الاسم">Il vostro nome</label>
+            <input id="guestName" name="guestName" required
+                   autocomplete="name" placeholder="Nome e cognome">
+          </div>
+
+          <div class="form-field">
+            <label for="attendance" data-it="Parteciperete?"
+                   data-ar="هل ستتمكنون من الحضور؟">Parteciperete?</label>
+            <select id="attendance" name="attendance" required>
+              <option value="yes" data-it="Sì, ci sarò!" data-ar="نعم، سأحضر!">Sì, ci sarò!</option>
+              <option value="no" data-it="Mi dispiace, non potrò"
+                      data-ar="للأسف لن أتمكن من الحضور">Mi dispiace, non potrò</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="guests" data-it="Numero totale di persone"
+                   data-ar="عدد الأشخاص">Numero totale di persone</label>
+            <select id="guests" name="guests">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+
+          <button class="gold-button" type="submit"
+                  data-it="Invia la conferma su WhatsApp"
+                  data-ar="إرسال التأكيد عبر واتساب">
+            Invia la conferma su WhatsApp
+          </button>
+
+          <p class="rsvp-note"
+             data-it="La conferma si aprirà in WhatsApp per essere inviata. Non viene trasmessa automaticamente dal sito."
+             data-ar="سيتم فتح واتساب لإرسال رسالة التأكيد. لن يتم إرسالها تلقائيًا من الموقع.">
+            La conferma si aprirà in WhatsApp per essere inviata. Non viene trasmessa automaticamente dal sito.
+          </p>
+        </form>
+      </div>
+    </section>
   </main>
 
+  <footer>
+    <div class="footer-names">Moussa &amp; Simona</div>
+    <div class="ornament">✦</div>
+    <div class="footer-small" data-it="06 · 04 · 2027 — Per sempre"
+         data-ar="٦ · ٤ · ٢٠٢٧ — إلى الأبد">
+      06 · 04 · 2027 — Per sempre
+    </div>
+  </footer>
+
   <script>
-    let language = "it";
+    // --------------------------------------------------
+    // CONFIGURAZIONE: inserisci il numero WhatsApp
+    // completo con prefisso internazionale, senza + o spazi.
+    // Esempio di formato: 393331234567
+    // --------------------------------------------------
+    const WHATSAPP_NUMBER = "INSERISCI_NUMERO_WHATSAPP";
+
+    const intro = document.getElementById("intro");
+    const openButton = document.getElementById("openInvite");
+    const envelope = document.getElementById("envelope");
+    const music = document.getElementById("weddingMusic");
+    const musicButton = document.getElementById("musicButton");
+    const languageButton = document.getElementById("languageButton");
+
+    let currentLanguage = "it";
 
     function openInvitation() {
-      document.getElementById("envelope").classList.add("open");
-
-      setTimeout(() => {
-        document.getElementById("content").classList.add("visible");
-        document.getElementById("content").scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }, 550);
+      intro.classList.add("closed");
+      document.body.classList.remove("locked");
     }
 
-    function toggleLanguage() {
-      language = language === "it" ? "ar" : "it";
+    openButton.addEventListener("click", openInvitation);
+    envelope.addEventListener("click", openInvitation);
+
+    envelope.addEventListener("keydown", function(event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openInvitation();
+      }
+    });
+
+    // Musica: richiede il file music.mp3 nel repository.
+    musicButton.addEventListener("click", async function() {
+      if (music.paused) {
+        try {
+          await music.play();
+          musicButton.textContent = currentLanguage === "it"
+            ? "♫ Pausa musica"
+            : "♫ إيقاف الموسيقى";
+        } catch (error) {
+          alert(currentLanguage === "it"
+            ? "Aggiungi il file music.mp3 al repository e riprova."
+            : "أضيفي ملف music.mp3 إلى المستودع ثم حاولي مرة أخرى.");
+        }
+      } else {
+        music.pause();
+        musicButton.textContent = currentLanguage === "it"
+          ? "♫ Musica"
+          : "♫ الموسيقى";
+      }
+    });
+
+    // Cambio lingua IT / AR.
+    function setLanguage(language) {
+      currentLanguage = language;
+      const isArabic = language === "ar";
 
       document.documentElement.lang = language;
-      document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+      document.documentElement.dir = isArabic ? "rtl" : "ltr";
+      document.body.dir = isArabic ? "rtl" : "ltr";
 
-      document.querySelectorAll("[data-it]").forEach(element => {
+      document.querySelectorAll("[data-it][data-ar]").forEach(function(element) {
         element.textContent = element.getAttribute("data-" + language);
       });
 
-      document.getElementById("languageButton").textContent =
-        language === "it" ? "العربية" : "Italiano";
+      languageButton.textContent = isArabic ? "Italiano" : "عربي";
+
+      musicButton.textContent = music.paused
+        ? (isArabic ? "♫ الموسيقى" : "♫ Musica")
+        : (isArabic ? "♫ إيقاف الموسيقى" : "♫ Pausa musica");
     }
 
-    function updateCountdown() {
-      // Ora indicativa: 18:00 in Egitto.
-      const weddingDate = new Date("2027-04-06T18:00:00+02:00");
-      const difference = weddingDate.getTime() - Date.now();
+    languageButton.addEventListener("click", function() {
+      setLanguage(currentLanguage === "it" ? "ar" : "it");
+    });
 
-      const ids = ["days", "hours", "minutes", "seconds"];
+    // Conto alla rovescia fino al 6 aprile 2027.
+    // L'orario è impostato a mezzanotte locale del dispositivo.
+    const weddingDate = new Date(2027, 3, 6, 0, 0, 0);
+
+    function updateCountdown() {
+      const now = new Date();
+      const difference = weddingDate.getTime() - now.getTime();
 
       if (difference <= 0) {
-        ids.forEach(id => {
-          document.getElementById(id).textContent = "0";
-        });
+        document.getElementById("days").textContent = "0";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
         return;
       }
 
-      document.getElementById("days").textContent =
-        Math.floor(difference / 86400000);
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / (1000 * 60)) % 60);
+      const seconds = Math.floor((difference / 1000) % 60);
 
-      document.getElementById("hours").textContent =
-        Math.floor((difference / 3600000) % 24);
-
-      document.getElementById("minutes").textContent =
-        Math.floor((difference / 60000) % 60);
-
-      document.getElementById("seconds").textContent =
-        Math.floor((difference / 1000) % 60);
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
     }
 
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
+    // Animazioni quando le sezioni entrano nella schermata.
+    const revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach(function(element) {
+      revealObserver.observe(element);
+    });
+
+    // RSVP: apre WhatsApp con un messaggio pronto da inviare.
+    document.getElementById("rsvpForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      if (WHATSAPP_NUMBER === "INSERISCI_NUMERO_WHATSAPP") {
+        alert(currentLanguage === "it"
+          ? "Prima di usare l'RSVP, inserisci il numero WhatsApp nella configurazione dello script."
+          : "قبل استخدام تأكيد الحضور، أضيفي رقم واتساب في إعدادات الكود.");
+        return;
+      }
+
+      const guestName = document.getElementById("guestName").value.trim();
+      const attendance = document.getElementById("attendance").value;
+      const guests = document.getElementById("guests").value;
+
+      const message = currentLanguage === "it"
+        ? "Ciao! Sono " + guestName +
+          ". Conferma matrimonio Moussa & Simona, 6 aprile 2027: " +
+          (attendance === "yes" ? "parteciperò" : "non potrò partecipare") +
+          ". Numero totale di persone: " + guests + "."
+        : "مرحبًا، أنا " + guestName +
+          ". بخصوص زفاف موسى وسيمونا يوم ٦ أبريل ٢٠٢٧: " +
+          (attendance === "yes" ? "سأحضر" : "لن أتمكن من الحضور") +
+          ". العدد الإجمالي للأشخاص: " + guests + ".";
+
+      const whatsappUrl =
+        "https://wa.me/" + WHATSAPP_NUMBER +
+        "?text=" + encodeURIComponent(message);
+
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    });
   </script>
 </body>
 </html>
+
+
+
 
