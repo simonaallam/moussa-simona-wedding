@@ -1,88 +1,759 @@
+
 <!DOCTYPE html>
-<html lang="it" dir="ltr">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>The Wedding of Moussa & Simona</title>
-  
-  <!-- Font eleganti da Google Fonts -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f2e9">
+  <title>Moussa & Simona — Wedding Invitation</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper: #fbf7f0;
+      --cream: #f1e6d7;
+      --champagne: #d8c09e;
+      --gold: #a88754;
+      --ink: #544438;
+      --muted: #877665;
+      --white: #fffdf9;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Cormorant Garamond", serif;
+      text-align: center;
+    }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    button { font: inherit; }
+
+    .language {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 30;
+    }
+
+    .language button {
+      background: #fffdf9e8;
+      color: var(--ink);
+      border: 1px solid var(--champagne);
+      border-radius: 30px;
+      padding: 9px 15px;
+      font-size: 14px;
+      box-shadow: 0 3px 15px #66513c12;
+    }
+
+    .cover {
+      min-height: 100svh;
+      padding: 75px 20px 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 40%, #fffdf9 0%, #f8f0e5 72%);
+    }
+
+    .cover::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid #c8ad84;
+      pointer-events: none;
+    }
+
+    .cover::after {
+      content: "❦";
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--gold);
+      font-size: 27px;
+    }
+
+    .small-caps {
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .cover h1 {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(52px, 13vw, 82px);
+      line-height: 1.2;
+      font-weight: 400;
+      color: var(--gold);
+      margin: 20px 0 4px;
+    }
+
+    .cover-date {
+      letter-spacing: 4px;
+      font-size: 16px;
+      margin: 12px 0 27px;
+    }
+
+    .envelope-wrap {
+      width: min(82vw, 360px);
+      margin: 16px auto 28px;
+      perspective: 1200px;
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 225px;
+      cursor: pointer;
+      background: #e4d0b7;
+      box-shadow: 0 20px 45px #80664822;
+      isolation: isolate;
+    }
+
+    .envelope-back {
+      position: absolute;
+      inset: 0;
+      background: #eadbc8;
+    }
+
+    .letter {
+      position: absolute;
+      z-index: 1;
+      left: 7%;
+      top: 12px;
+      width: 86%;
+      height: 195px;
+      padding: 22px 10px;
+      background: var(--white);
+      border: 1px solid #e1cdb1;
+      transition: transform 1s ease;
+    }
+
+    .letter .monogram {
+      font-family: "Great Vibes", cursive;
+      color: var(--gold);
+      font-size: 36px;
+      margin: 12px 0;
+    }
+
+    .letter p {
+      font-size: 15px;
+      letter-spacing: 2px;
+      margin: 8px 0;
+    }
+
+    .front-left, .front-right, .front-bottom {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .front-left {
+      background: #f0e1cf;
+      clip-path: polygon(0 0, 51% 52%, 0 100%);
+    }
+
+    .front-right {
+      background: #e0c9ad;
+      clip-path: polygon(100% 0, 49% 52%, 100% 100%);
+    }
+
+    .front-bottom {
+      background: #ead7bf;
+      clip-path: polygon(0 100%, 50% 43%, 100% 100%);
+    }
+
+    .flap {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      background: #f7ebdc;
+      clip-path: polygon(0 0, 100% 0, 50% 57%);
+      transform-origin: top center;
+      transition: transform 0.9s ease;
+    }
+
+    .seal {
+      position: absolute;
+      z-index: 6;
+      top: 88px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 54px;
+      width: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #ae896d;
+      border: 2px solid #d5b99a;
+      color: #fff8ec;
+      font-family: "Great Vibes", cursive;
+      font-size: 25px;
+      box-shadow: 0 4px 12px #674a342b;
+      transition: opacity .4s ease;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(180deg);
+      z-index: 0;
+    }
+
+    .envelope.open .seal { opacity: 0; }
+
+    .envelope.open .letter {
+      transform: translateY(-115px);
+      z-index: 4;
+    }
+
+    .open-button, .button {
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--ink);
+      padding: 12px 24px;
+      letter-spacing: 2px;
+      font-size: 13px;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+      transition: background .3s ease;
+    }
+
+    .open-button:hover, .button:hover {
+      background: var(--cream);
+    }
+
+    .cover-note {
+      color: var(--muted);
+      font-size: 17px;
+      font-style: italic;
+      margin-top: 12px;
+    }
+
+    .content { display: none; }
+
+    .content.visible {
+      display: block;
+      animation: fadeIn 1.2s ease both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      padding: 72px 22px;
+      max-width: 760px;
+      margin: auto;
+    }
+
+    .section + .section {
+      border-top: 1px solid #e8dac8;
+    }
+
+    .ornament {
+      color: var(--gold);
+      font-size: 27px;
+      letter-spacing: 7px;
+      margin: 0 0 20px;
+    }
+
+    .script-title {
+      font-family: "Great Vibes", cursive;
+      font-weight: 400;
+      color: var(--gold);
+      font-size: clamp(43px, 10vw, 65px);
+      margin: 8px 0 18px;
+    }
+
+    .names {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 7vw, 42px);
+      font-weight: 400;
+      margin: 18px 0;
+    }
+
+    .ampersand {
+      font-family: "Great Vibes", cursive;
+      color: var(--gold);
+      font-size: 1.4em;
+      padding: 0 5px;
+    }
+
+    .body-copy {
+      font-size: 21px;
+      line-height: 1.7;
+      max-width: 530px;
+      margin: 20px auto;
+    }
+
+    .wedding-date {
+      font-family: "Playfair Display", serif;
+      font-size: 23px;
+      letter-spacing: 3px;
+      margin: 30px 0 10px;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 28px auto;
+    }
+
+    .count-box {
+      width: 76px;
+      padding: 14px 5px;
+      border: 1px solid #d9c3a4;
+      background: #fffdf9;
+    }
+
+    .count-box strong {
+      display: block;
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+      font-weight: 400;
+    }
+
+    .count-box span {
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .feature {
+      background: #f2e8db;
+      padding: 38px 20px;
+      border-top: 1px solid #e0ceb6;
+      border-bottom: 1px solid #e0ceb6;
+    }
+
+    .feature h3 {
+      font-size: 26px;
+      font-weight: 500;
+      margin: 8px 0 14px;
+    }
+
+    .location-name {
+      font-family: Tahoma, sans-serif;
+      font-size: 22px;
+      line-height: 1.9;
+      direction: rtl;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 25px auto;
+    }
+
+    .photo-placeholder {
+      min-height: 190px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      background: linear-gradient(145deg, #eee0ce, #f9f3e9);
+      border: 1px solid #dfccb3;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 17px;
+    }
+
+    .photo-placeholder:first-child {
+      grid-column: 1 / -1;
+      min-height: 250px;
+    }
+
+    .music-card {
+      max-width: 420px;
+      margin: 25px auto 0;
+      padding: 26px 18px;
+      background: #f4eadd;
+      border: 1px solid #dfc9aa;
+    }
+
+    .music-icon {
+      font-size: 28px;
+      color: var(--gold);
+    }
+
+    .music-card h3 {
+      font-weight: 400;
+      font-family: "Playfair Display", serif;
+      font-size: 22px;
+    }
+
+    .music-card audio {
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .music-hint {
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 36px 15px 50px;
+      border-top: 1px solid #e8dac8;
+      color: var(--gold);
+      font-family: "Great Vibes", cursive;
+      font-size: 34px;
+    }
+
+    [dir="rtl"] {
+      font-family: Tahoma, sans-serif;
+    }
+
+    [dir="rtl"] .small-caps {
+      letter-spacing: 0;
+    }
+
+    [dir="rtl"] .body-copy {
+      line-height: 2;
+    }
+
+    [dir="rtl"] .cover h1,
+    [dir="rtl"] .script-title,
+    [dir="rtl"] footer {
+      font-family: "Great Vibes", cursive;
+    }
+
+    @media (max-width: 380px) {
+      .envelope { height: 205px; }
+      .letter { height: 180px; }
+      .count-box { width: 68px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="language">
+    <button id="languageButton" onclick="toggleLanguage()">العربية</button>
+  </div>
 
-  <!-- Contenitore Principale 9:16 -->
-  <div class="app-container">
-    
-    <!-- Barra Superiore / Language Selector & Audio -->
-    <header class="top-bar">
-      <button id="lang-toggle" class="glass-btn">العربية</button>
-      <button id="music-toggle" class="glass-btn">
-        <span id="music-icon">🎵</span>
-      </button>
-    </header>
+  <header class="cover" id="cover">
+    <p class="small-caps"
+       data-it="Con gioia vi invitiamo al nostro matrimonio"
+       data-ar="بكل حب ندعوكم لحضور حفل زفافنا">
+      Con gioia vi invitiamo al nostro matrimonio
+    </p>
 
-    <!-- Audio di Sfondo (Musica Strumentale Romantica) -->
-    <audio id="bg-music" loop preload="auto">
-      <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=wedding-romantic-piano-112191.mp3" type="audio/mpeg">
-    </audio>
+    <h1>Moussa &amp; Simona</h1>
+    <p class="cover-date">06 · 04 · 2027</p>
 
-    <!-- SCHERMATA 1: BUSTA D'INVITO & APERTURA -->
-    <section id="screen-opening" class="screen active">
-      <div class="palace-bg"></div>
-      <div class="overlay-content">
-        <p class="sub-title data-i18n="wedding_of">IL MATRIMONIO DI</p>
-        <h1 class="names-title">Moussa<br><span class="amp">&</span><br>Simona</h1>
-        
-        <div class="envelope-wrapper" id="open-invitation-btn">
-          <div class="gold-leaf-icon">🌿</div>
-          <p class="tap-hint" data-i18n="tap_to_open">Toccca per Aprire l'Invito</p>
+    <div class="envelope-wrap">
+      <div class="envelope" id="envelope">
+        <div class="envelope-back"></div>
+        <div class="letter">
+          <p class="small-caps">YOU ARE INVITED</p>
+          <div class="monogram">M · S</div>
+          <p>06 APRIL 2027</p>
+        </div>
+        <div class="front-left"></div>
+        <div class="front-right"></div>
+        <div class="front-bottom"></div>
+        <div class="flap"></div>
+        <div class="seal">M·S</div>
+      </div>
+    </div>
+
+    <button class="open-button" onclick="openInvitation()"
+            data-it="Apri il nostro invito"
+            data-ar="افتحوا دعوتنا">
+      Apri il nostro invito
+    </button>
+
+    <p class="cover-note"
+       data-it="Una storia d'amore, un nuovo capitolo."
+       data-ar="قصة حب وفصل جديد من الحياة">
+      Una storia d'amore, un nuovo capitolo.
+    </p>
+  </header>
+
+  <main class="content" id="content">
+    <section class="section">
+      <div class="ornament">❦ ✧ ❦</div>
+      <p class="small-caps"
+         data-it="Insieme per sempre"
+         data-ar="معًا إلى الأبد">
+        Insieme per sempre
+      </p>
+
+      <h2 class="script-title"
+          data-it="Ci sposiamo"
+          data-ar="سنتزوج">
+        Ci sposiamo
+      </h2>
+
+      <div class="names">
+        Moussa <span class="ampersand">&amp;</span> Simona
+      </div>
+
+      <p class="body-copy"
+         data-it="Ci sono momenti che diventano ricordi preziosi e giorni che restano per sempre nel cuore. Saremo felici di condividere con voi l'inizio della nostra nuova vita insieme."
+         data-ar="هناك لحظات تصبح ذكريات ثمينة وأيام تبقى في القلب إلى الأبد. يسعدنا أن نشارككم بداية حياتنا الجديدة معًا.">
+        Ci sono momenti che diventano ricordi preziosi e giorni che restano per sempre nel cuore. Saremo felici di condividere con voi l'inizio della nostra nuova vita insieme.
+      </p>
+
+      <div class="ornament">❀</div>
+      <p class="wedding-date">6 APRILE 2027</p>
+      <p data-it="Non vediamo l'ora di festeggiare con voi"
+         data-ar="نتطلع للاحتفال معكم">
+        Non vediamo l'ora di festeggiare con voi
+      </p>
+    </section>
+
+    <section class="feature">
+      <div class="ornament">✧</div>
+      <h3 data-it="Il nostro giorno speciale"
+          data-ar="يومنا المميز">
+        Il nostro giorno speciale
+      </h3>
+
+      <div class="countdown">
+        <div class="count-box">
+          <strong id="days">--</strong>
+          <span data-it="Giorni" data-ar="أيام">Giorni</span>
+        </div>
+        <div class="count-box">
+          <strong id="hours">--</strong>
+          <span data-it="Ore" data-ar="ساعات">Ore</span>
+        </div>
+        <div class="count-box">
+          <strong id="minutes">--</strong>
+          <span data-it="Minuti" data-ar="دقائق">Minuti</span>
+        </div>
+        <div class="count-box">
+          <strong id="seconds">--</strong>
+          <span data-it="Secondi" data-ar="ثوانٍ">Secondi</span>
         </div>
       </div>
     </section>
 
-    <!-- CONTENUTO DELL'INVITO -->
-    <main id="main-content" class="hidden">
+    <section class="section">
+      <div class="ornament">❦</div>
+      <h2 class="script-title"
+          data-it="Dove ci incontreremo"
+          data-ar="مكان لقائنا">
+        Dove ci incontreremo
+      </h2>
 
-      <!-- SCHERMATA 2: TESTO DELL'INVITO -->
-      <section class="card-section">
-        <div class="card-frame">
-          <p class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ</p>
-          <div class="divider-gold">✦</div>
-          <p class="invitation-text" data-i18n="invitation_body">
-            Insieme alle nostre famiglie,<br>
-            <strong>Moussa & Simona</strong><br>
-            hanno il piacere di invitarvi a festeggiare il loro matrimonio.
-          </p>
+      <p class="small-caps"
+         data-it="La location"
+         data-ar="مكان الحفل">
+        La location
+      </p>
+
+      <p class="location-name">قاعة روتانا المعادي</p>
+
+      <p class="body-copy"
+         data-it="Sarà un piacere avervi accanto in questo giorno indimenticabile."
+         data-ar="يسعدنا وجودكم بجانبنا في هذا اليوم الذي لا يُنسى.">
+        Sarà un piacere avervi accanto in questo giorno indimenticabile.
+      </p>
+
+      <a class="button"
+         href="https://www.google.com/maps/search/?api=1&query=قاعة+روتانا+المعادي"
+         target="_blank" rel="noopener"
+         data-it="Apri Google Maps"
+         data-ar="افتح خرائط جوجل">
+        Apri Google Maps
+      </a>
+    </section>
+
+    <section class="section">
+      <div class="ornament">✧ ❀ ✧</div>
+      <h2 class="script-title"
+          data-it="I nostri ricordi"
+          data-ar="ذكرياتنا">
+        I nostri ricordi
+      </h2>
+
+      <p class="body-copy"
+         data-it="Ogni foto racconta un piccolo pezzo della nostra storia."
+         data-ar="كل صورة تحكي جزءًا صغيرًا من قصتنا.">
+        Ogni foto racconta un piccolo pezzo della nostra storia.
+      </p>
+
+      <div class="photo-grid">
+        <div class="photo-placeholder"
+             data-it="Qui inseriremo la nostra foto"
+             data-ar="سنضع صورتنا هنا">
+          Qui inseriremo la nostra foto
         </div>
-      </section>
+        <div class="photo-placeholder"
+             data-it="Un ricordo speciale"
+             data-ar="ذكرى مميزة">
+          Un ricordo speciale
+        </div>
+        <div class="photo-placeholder"
+             data-it="Un momento insieme"
+             data-ar="لحظة معًا">
+          Un momento insieme
+        </div>
+      </div>
+    </section>
 
-      <!-- SCHERMATA 3: CONTO ALLA ROVESCIA (COUNTDOWN) -->
-      <section class="card-section">
-        <div class="countdown-card">
-          <p class="section-tag" data-i18n="countdown_tag">COUNTDOWN</p>
-          <div class="key-icon">🗝️</div>
-          <h2 class="card-heading" data-i18n="until_our_day">Fino al Nostro Giorno</h2>
-          <p class="card-subhead" data-i18n="waiting_moment">IL MOMENTO CHE STAVAMO ASPETTANDO</p>
-          
-          <div class="heart-badge">🤍</div>
+    <section class="section">
+      <div class="ornament">❦</div>
+      <h2 class="script-title"
+          data-it="Sarete dei nostri?"
+          data-ar="هل ستشاركوننا فرحتنا؟">
+        Sarete dei nostri?
+      </h2>
 
-          <div class="countdown-grid">
-            <div class="time-box">
-              <span id="days">00</span>
-              <label data-i18n="days">GIORNI</label>
-            </div>
-            <div class="time-box">
-              <span id="hours">00</span>
-              <label data-i18n="hours">ORE</label>
-            </div>
-            <div class="time-box">
-              <span id="minutes">00</span>
-              <label data-i18n="minutes">MINUTI</label>
-            </div>
+      <p class="body-copy"
+         data-it="La vostra presenza renderà questo giorno ancora più speciale. Fateci sapere se sarete con noi."
+         data-ar="وجودكم سيجعل هذا اليوم أكثر تميزًا. أخبرونا إذا كنتم ستشاركوننا.">
+        La vostra presenza renderà questo giorno ancora più speciale. Fateci sapere se sarete con noi.
+      </p>
+
+      <!-- Inserire qui il link del vostro modulo Google Forms -->
+      <a class="button"
+         href="https://forms.google.com/"
+         target="_blank" rel="noopener"
+         data-it="Conferma la tua presenza"
+         data-ar="تأكيد الحضور">
+        Conferma la tua presenza
+      </a>
+    </section>
+
+    <section class="section">
+      <div class="ornament">♫</div>
+      <h2 class="script-title"
+          data-it="La nostra melodia"
+          data-ar="لحننا الخاص">
+        La nostra melodia
+      </h2>
+
+      <p class="body-copy"
+         data-it="Una melodia romantica per accompagnare il nostro giorno speciale."
+         data-ar="لحن رومانسي يرافق يومنا المميز.">
+        Una melodia romantica per accompagnare il nostro giorno speciale.
+      </p>
+
+      <div class="music-card">
+        <div class="music-icon">♪ ♡ ♪</div>
+        <h3>Entwined Hearts</h3>
+        <p class="music-hint"
+           data-it="Premi play per ascoltare"
+           data-ar="اضغط تشغيل للاستماع">
+          Premi play per ascoltare
+        </p>
+
+        <audio id="weddingMusic" controls preload="none">
+          <source src="entwined-hearts.mp3" type="audio/mpeg">
+          Il tuo browser non supporta il player audio.
+        </audio>
+
+        <p class="music-hint"
+           data-it="La musica verrà riprodotta dopo aver premuto play."
+           data-ar="ستبدأ الموسيقى بعد الضغط على تشغيل.">
+          La musica verrà riprodotta dopo aver premuto play.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      With love, Moussa &amp; Simona
+      <div class="ornament">❦</div>
+      <p class="small-caps"
+         data-it="6 aprile 2027"
+         data-ar="٦ أبريل ٢٠٢٧">
+        6 aprile 2027
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    let language = "it";
+
+    function openInvitation() {
+      document.getElementById("envelope").classList.add("open");
+
+      setTimeout(() => {
+        document.getElementById("content").classList.add("visible");
+        document.getElementById("content").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 550);
+    }
+
+    function toggleLanguage() {
+      language = language === "it" ? "ar" : "it";
+
+      document.documentElement.lang = language;
+      document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+
+      document.querySelectorAll("[data-it]").forEach(element => {
+        element.textContent = element.getAttribute("data-" + language);
+      });
+
+      document.getElementById("languageButton").textContent =
+        language === "it" ? "العربية" : "Italiano";
+    }
+
+    function updateCountdown() {
+      // Ora indicativa: 18:00 in Egitto.
+      const weddingDate = new Date("2027-04-06T18:00:00+02:00");
+      const difference = weddingDate.getTime() - Date.now();
+
+      const ids = ["days", "hours", "minutes", "seconds"];
+
+      if (difference <= 0) {
+        ids.forEach(id => {
+          document.getElementById(id).textContent = "0";
+        });
+        return;
+      }
+
+      document.getElementById("days").textContent =
+        Math.floor(difference / 86400000);
+
+      document.getElementById("hours").textContent =
+        Math.floor((difference / 3600000) % 24);
+
+      document.getElementById("minutes").textContent =
+        Math.floor((difference / 60000) % 60);
+
+      document.getElementById("seconds").textContent =
+        Math.floor((difference / 1000) % 60);
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
+
 
 
 
